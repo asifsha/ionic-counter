@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{counterObject.Title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding> 
+	<ion-content class="has-header" padding="true">
+		<div>
+      <ion-list no-lines>     					
+          <ion-item>
+            {{counterObject.CounterValue}}            
+          </ion-item>
+          <ion-item>
+      <button large ion-button block (click)="UpdateCounter(counterObject.CounterIncrement)"> +{{counterObject.CounterIncrement}}</button>
+          </ion-item>
+			<ion-item>
+         <button large ion-button block color="danger" (click)="UpdateCounter(-1 * counterObject.CounterDecrement)"> -{{counterObject.CounterDecrement}}</button>
+			</ion-item>
+			<ion-item>
+          <button ion-button icon-right block (click)="ResetCounter()">
+            <ion-icon name="refresh"></ion-icon> Reset
+          </button>         
+			</ion-item>
+			</ion-list>
+
+		</div>
+    </ion-content>
+
+
+
+</ion-content>

@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Settings
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header color="light">Settings</ion-list-header>
+     <ion-item>
+      <ion-label floating>Counter Title</ion-label>
+      <ion-input type="text" [(ngModel)]="counterTitle" maxlength="10" ></ion-input>
+     </ion-item>
+
+     <ion-item>
+      <ion-label floating>Increment Value By</ion-label>
+      <ion-input type="number" [(ngModel)]="incrementValue" maxlength="7" ></ion-input>
+     </ion-item>
+
+    <ion-item>
+      <ion-label floating>Decrement Value By</ion-label>
+      <ion-input type="number" [(ngModel)]="decrementValue" maxlength="7"></ion-input>
+    </ion-item>
+    <ion-item>
+        <button ion-button (click)="SaveSettings(1)" >Save</button>
+        <button ion-button  danger  (click)="SaveSettings(1)" >Cancel</button>
+    </ion-item>
+  </ion-list>
+</ion-content>
