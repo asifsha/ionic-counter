@@ -4,6 +4,7 @@ import { NavController,AlertController } from 'ionic-angular';
 import { SqlStorage } from '../../common/shared';
 
 
+
 @Component({
   selector: 'page-about',
   templateUrl: 'about.html'
@@ -19,17 +20,24 @@ private newTitle : '';
   {   
     this.dataStore= new SqlStorage();
     this.allCounters= [
-        { name: 'jasper', city: 'Amsterdam', value: 10 },
-        { name:'Dave',city:'phoenix', value: 22} ,
-        { name:'Gina', city:'Amsterdam', value: 9 },
-        { name: 'Philip', city:'Otterloo', value: 55}
+        { CounterTitle: 'jasper', city: 'Amsterdam', CounterValue: 10 },
+        { CounterTitle:'Dave',city:'phoenix', CounterValue: 22} ,
+        { CounterTitle:'Gina', city:'Amsterdam', CounterValue: 9 },
+        { CounterTitle: 'Philip', city:'Otterloo', CounterValue: 55}
         ];
-   // this.allCounters=this.GetAll();
+   this.GetAll().then((val)=> { this.allCounters= val;} );
+    // let t=this.GetAll().then((val)=> 
+    // {
+    //   debugger;
+    //    return val;
+       
+    //   } );
+    // debugger;
   }
 
     GetAll()
     {
-      
+      console.log('in getall about');
       return this.dataStore.getAll();
       
     }
@@ -47,12 +55,19 @@ private newTitle : '';
       }
       console.log( this.newTitle);
       var counter= { CounterTitle : this.newTitle, CounterValue: 0, CounterIncrement :1 , CounterDecrement : 1 };
-      this.dataStore.set(this.newTitle,JSON.stringify(counter));
+      this.dataStore.set(this.newTitle,JSON.stringify(counter)).then((val)=>
+        {
+        this.GetAll().then((val)=> { this.allCounters= val;} );
+      }
+
+      );
 
     }
 
     SelectCounter(title){
-      console.log(title);
+      this.dataStore.get(title).then((val)=> {
+        console.log(val)
+      });
     }
 
 }

@@ -5,6 +5,7 @@ import { NavController } from 'ionic-angular';
 //import { SQLite} from 'ionic-native';
 import { SqlStorage } from '../../common/shared';
 
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -15,6 +16,7 @@ dataStore : SqlStorage;
   
   constructor(public navCtrl: NavController
               //public dataStore : SqlStorage
+             
                ) {
                 this.dataStore = new SqlStorage();
     // let db = new SQLite();
@@ -77,10 +79,15 @@ dataStore : SqlStorage;
    let k =obj.CounterId + "";
    console.log(obj.CounterId);
    console.log(obj.CounterValue);
-   this.dataStore.set(k,JSON.stringify(obj));
-   this.dataStore.get(k).then( (val) =>{
-   console.log(JSON.parse(val));  
+   this.dataStore.set(k,JSON.stringify(obj)).then(()=>{
+        console.log('added successfully');
+          this.dataStore.get(k).then( (val) =>{
+            debugger;
+            console.log(val);
+          //console.log(JSON.parse(val));  
+      });
    });
+   
    
   //  this.database.set("1",  JSON.stringify(obj));
   //  var o=this.database.get("1");
