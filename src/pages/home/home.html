@@ -15,10 +15,10 @@
       <button large ion-button block (click)="UpdateCounter(counterObject.CounterIncrement)"> +{{counterObject.CounterIncrement}}</button>
           </ion-item>
 			<ion-item>
-         <button large ion-button block color="danger" (click)="UpdateCounter(-1 * counterObject.CounterDecrement)"> -{{counterObject.CounterDecrement}}</button>
+         <button large ion-button block color="secondary" (click)="UpdateCounter(-1 * counterObject.CounterDecrement)"> -{{counterObject.CounterDecrement}}</button>
 			</ion-item>
 			<ion-item>
-          <button ion-button icon-right block (click)="ResetCounter()">
+          <button large ion-button icon-left block color="danger" (click)="ResetCounter()">
             <ion-icon name="refresh"></ion-icon> Reset
           </button>         
 			</ion-item>

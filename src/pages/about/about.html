@@ -17,17 +17,22 @@
       
     <button  item-right ion-button   (click)="AddNewCounter()" >Add</button>
   </ion-item>
-  <ion-item>
+  <!--<ion-item>
     <button ion-button block  (click)="GetAll()" >get all</button>
-  </ion-item>
+  </ion-item>-->
   </ion-item-group>
   <ion-item-group>
     <ion-item-divider color="light">Recent Counter(s)</ion-item-divider>
-    <ion-list  [virtualScroll]="allCounters">
+    <ion-list  [virtualScroll]="allCounters" approximateItemHeight=10>
 
       <ion-item *virtualItem="let item" (click)="SelectCounter(item.CounterTitle)">
         {{ item.CounterTitle }}
          <ion-badge item-right>{{item.CounterValue}}</ion-badge>
+
+         <!--<ion-icon name="trash" item-right color="danger" (click)="DeleteCounter(item.CounterTitle)"></ion-icon>-->
+          <button item-right ion-button icon-center icon-only clear  color="danger" (click)="DeleteCounter(item.CounterTitle)">
+            <ion-icon name="trash"></ion-icon>
+          </button>
       </ion-item>
 
     </ion-list>

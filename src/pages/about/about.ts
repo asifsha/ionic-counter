@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController,AlertController } from 'ionic-angular';
+import { NavController,AlertController,ToastController } from 'ionic-angular';
 import { SqlStorage } from '../../common/shared';
 
 
@@ -16,7 +16,7 @@ dataStore: SqlStorage;
 private newTitle : '';
 
 
-  constructor(public navCtrl: NavController, public alertCtrl :AlertController  ) 
+  constructor(public navCtrl: NavController, public alertCtrl :AlertController, public toastCtrl :ToastController  ) 
   {   
     this.dataStore= new SqlStorage();
     this.allCounters= [
@@ -33,6 +33,10 @@ private newTitle : '';
        
     //   } );
     // debugger;
+  }
+
+   ionViewDidEnter() {
+     this.GetAll().then((val)=> { this.allCounters= val;} );
   }
 
     GetAll()
@@ -53,21 +57,42 @@ private newTitle : '';
         alert.present();
         return;
       }
-      console.log( this.newTitle);
+      
+      
       var counter= { CounterTitle : this.newTitle, CounterValue: 0, CounterIncrement :1 , CounterDecrement : 1 };
-      this.dataStore.set(this.newTitle,JSON.stringify(counter)).then((val)=>
+      this.dataStore.add(this.newTitle,JSON.stringify(counter)).then((val)=>
         {
-        this.GetAll().then((val)=> { this.allCounters= val;} );
+        this.GetAll().then((val)=> {
+          this.newTitle=''; 
+          this.allCounters= val;
+          this.presentToast();
+          this.navCtrl.parent.select(0);
+           
+        } );
       }
 
       );
 
     }
 
+     presentToast() {
+            let toast = this.toastCtrl.create({
+              message: 'Counter was added successfully.',
+              duration: 3000
+            });
+            toast.present();
+          }
+
     SelectCounter(title){
       this.dataStore.get(title).then((val)=> {
-        console.log(val)
+        console.log(val);
+         this.navCtrl.parent.select(0);
       });
+    }
+
+    DeleteCounter(title)
+    {
+      this.presentToast();
     }
 
 }
