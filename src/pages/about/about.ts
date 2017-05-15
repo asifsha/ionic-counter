@@ -77,7 +77,7 @@ private newTitle : '';
 
      presentToast() {
             let toast = this.toastCtrl.create({
-              message: 'Counter was added successfully.',
+              message: 'Counter added successfully.',
               duration: 3000
             });
             toast.present();

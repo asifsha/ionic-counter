@@ -13,20 +13,10 @@ export class SqlStorage {
         
      }
 
-    getAll(){
-             return this.accessDatabase(4,'','');
-    }
+   
 
-    get(key: string){        
-        return this.accessDatabase(2,key,'').then((val)=>{
-            return val;
-        });
-        
-    }
-
-    remove(key: string){
-        //return this.db.executeSql('delete from kv where key = ?', [key]);
-        return this.accessDatabase(3,key,'').then(
+    remove(key: string){        
+        return this.accessDatabase(3,key,'','').then(
             (val)=> {
                 return val;
             }
@@ -35,20 +25,35 @@ export class SqlStorage {
     }
 
     add(key: string, value: string){                 
-         return this.accessDatabase(1,key,value);
+         return this.accessDatabase(1,key,value,'');
     }
 
      update(key: string, value: string){         
-         return this.accessDatabase(7,key,value);
+         return this.accessDatabase(7,key,value,'');
+    }
+
+    updateSettings(oldTitle: string, key: string, value: string){         
+         return this.accessDatabase(8,key,value,oldTitle);
+    }
+
+    getAll(){
+             return this.accessDatabase(4,'','','');
+    }
+
+    get(key: string){        
+        return this.accessDatabase(2,key,'','').then((val)=>{
+            return val;
+        });
+        
     }
 
     getAllCount(){
-             return this.accessDatabase(5,'','');
+             return this.accessDatabase(5,'','','');
     }
 
     getCurrentObject(){
         console.log('in get current object');
-        return this.accessDatabase(6,'','');       
+        return this.accessDatabase(6,'','','');       
 
     }
     
@@ -66,7 +71,7 @@ export class SqlStorage {
             });
     }
 
-    accessDatabase(mode : number, key: string, value: string){
+    accessDatabase(mode : number, key: string, value: string, oldTitle : string){
         try
         {
         debugger;
@@ -189,6 +194,17 @@ export class SqlStorage {
              else if(mode==7)//update objeet
             {
                     return this.db.executeSql('update kv SET value = ? where key= ?  ', [value,key]).then(data => {
+                    if (data.rows.length > 0) {
+                        this.db.close();
+                        return data.rows.length;
+                    }
+                    this.db.close();
+             });
+            }
+            else if(mode==8)//updateSettings
+            {
+                debugger;
+                    return this.db.executeSql('update kv SET value = ?, key= ? where key= ?  ', [value, key, oldTitle]).then(data => {
                     if (data.rows.length > 0) {
                         this.db.close();
                         return data.rows.length;
