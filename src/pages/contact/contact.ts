@@ -71,7 +71,7 @@ export class ContactPage {
   NavigateToLastTab()
   {
     let tabIndex=this.navCtrl.parent._selectHistory[this.navCtrl.parent._selectHistory.length - 2] == "t0-0" ? 0 : 1;
-    this.navCtrl.parent.select(tabIndex);
+    this.navCtrl.parent.select(0);
   }
 
 }

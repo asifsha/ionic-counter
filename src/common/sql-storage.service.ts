@@ -28,7 +28,7 @@ export class SqlStorage {
          return this.accessDatabase(1,key,value,'');
     }
 
-     update(key: string, value: string){         
+    update(key: string, value: string){         
          return this.accessDatabase(7,key,value,'');
     }
 
@@ -41,9 +41,7 @@ export class SqlStorage {
     }
 
     get(key: string){        
-        return this.accessDatabase(2,key,'','').then((val)=>{
-            return val;
-        });
+        return this.accessDatabase(2,key,'','');
         
     }
 
@@ -53,8 +51,12 @@ export class SqlStorage {
 
     getCurrentObject(){
         console.log('in get current object');
-        return this.accessDatabase(6,'','','');       
+        return this.accessDatabase(6,'','');       
 
+    }
+
+    isExists(key: string){
+             return this.accessDatabase(9,key ,'','');
     }
     
     /**
@@ -71,7 +73,7 @@ export class SqlStorage {
             });
     }
 
-    accessDatabase(mode : number, key: string, value: string, oldTitle : string){
+    accessDatabase(mode : number, key: string, value: string, oldTitle?: string){
         try
         {
         debugger;
@@ -90,7 +92,7 @@ export class SqlStorage {
                                         // return JSON.parse(data.rows.item(0).value);
                                         return data.rows.length;
                                         }
-                                        this.db.close();
+                                        //this.db.close();
                                     
                                 });
                             //}
@@ -102,16 +104,17 @@ export class SqlStorage {
             else if (mode ==2 )//get
             {
                 return this.db.executeSql('update kv SET currentCounter = 0', null).then(data=> {
-                    debugger;
+                    
                    // if(data.rows.length > 0)
                     //{
                         return this.db.executeSql('update kv SET currentCounter = 1 where key = ?', [key]).then(data => {
+                            
                             if(data.rows.length > 0)
                             {       
                                 return this.db.executeSql('select key, value from kv where key = ? limit 1', [key]).then(data => {
                                                 
                                             if (data.rows.length > 0) {
-                                                this.db.close();
+                                               // this.db.close();
                                                 return JSON.parse(data.rows.item(0).value);
                                             }                                            
                                     });
@@ -132,17 +135,31 @@ export class SqlStorage {
             else if(mode==3)//remove
             {
                     return this.db.executeSql('delete from kv where key = ?', [key]).then(data => {
-                    if (data.rows.length > 0) {
-                        this.db.close();
-                        return data.rows.length;
-                    }
-                    this.db.close();
+                        debugger;
+                   // if (data.rows.length > 0)
+                    // {
+                        return this.db.executeSql('update kv set currentCounter = 1 where key in (select key from kv limit 1)', null).then(data => {
+                            debugger;    
+                            return this.db.executeSql('select key, value from kv limit 1',null).then(data=>{ 
+                                debugger;
+                                    if (data.rows.length == 0)                                    {
+                                        var obj={ CounterTitle :'First Counter', CounterValue: 0, CounterIncrement :1 , CounterDecrement : 1 };
+                                        this.accessDatabase(1,obj.CounterTitle,JSON.stringify(obj));
+                                    }
+                                 }
+                            );
+                        
+                      //  this.db.close();
+                        //return data.rows.length;
+                        });
+                   // }
+                    //this.db.close();
              });
             }
             else if(mode==4)
             {//4 getall                
                     return this.db.executeSql('select key, value, currentCounter from kv',null).then(data => {                       
-                     debugger;    
+                       
                     let results = [];
                     for (let i = 0; i < data.rows.length; i++) {
                         try
@@ -157,7 +174,7 @@ export class SqlStorage {
                         }
 
                     }                    
-                     this.db.close();
+                     //this.db.close();
                      return results;
                     
                 },(err)=>{
@@ -173,21 +190,21 @@ export class SqlStorage {
             {
                     return this.db.executeSql('select count(key) from kv ', null).then(data => {
                     if (data.rows.length > 0) {
-                        this.db.close();
+                      //  this.db.close();
                         return data.rows.length;
                     }
-                    this.db.close();                    
+                    //this.db.close();                    
              });
             }  
             else if(mode==6)//getCurrent objeet
             {
                     return this.db.executeSql('select key, value, currentCounter from kv where currentCounter = 1 ', null).then(data => {
-                        debugger;
+                        
                     if (data.rows.length > 0) {
-                        this.db.close();
+                       // this.db.close();
                         return JSON.parse(data.rows.item(0).value);
                     }
-                    this.db.close();
+                    //this.db.close();
                     return  { CounterTitle :'First Counter', CounterValue: 0, CounterIncrement :1 , CounterDecrement : 1 }
              });
             }  
@@ -195,21 +212,34 @@ export class SqlStorage {
             {
                     return this.db.executeSql('update kv SET value = ? where key= ?  ', [value,key]).then(data => {
                     if (data.rows.length > 0) {
-                        this.db.close();
+                        //this.db.close();
                         return data.rows.length;
                     }
-                    this.db.close();
+                   // this.db.close();
              });
             }
             else if(mode==8)//updateSettings
             {
-                debugger;
+                
                     return this.db.executeSql('update kv SET value = ?, key= ? where key= ?  ', [value, key, oldTitle]).then(data => {
                     if (data.rows.length > 0) {
-                        this.db.close();
+                       // this.db.close();
                         return data.rows.length;
                     }
-                    this.db.close();
+                   // this.db.close();
+             });
+            }
+            else if(mode==9)//isExists
+            {
+                
+                    return this.db.executeSql('select key, value from kv where key= ?  ', [key]).then(data => {
+                         
+                    if (data.rows.length > 0) {
+                       // this.db.close();
+                        return JSON.parse(data.rows.item(0).value);
+                    }
+                    return null;
+                   // this.db.close();
              });
             }
                         

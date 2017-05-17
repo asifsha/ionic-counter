@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController } from 'ionic-angular';
+import { NavController,AlertController } from 'ionic-angular';
 //import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 //import { SQLite} from 'ionic-native';
 import { SqlStorage } from '../../common/shared';
@@ -14,7 +14,8 @@ export class HomePage {
 
   dataStore: SqlStorage;
 
-  constructor(public navCtrl: NavController
+  constructor(public navCtrl: NavController,
+              public alertCtrl : AlertController
     //public dataStore : SqlStorage
 
   ) {
@@ -55,16 +56,39 @@ export class HomePage {
     });
   }
 
-  UpdateCounter(value) {
-    this.SetCounterValue(this.counterObject.CounterValue + value);
+  UpdateCounter(value: number) {
+    debugger;
+    var n= +this.counterObject.CounterValue;
+    var v= +value;
+    this.SetCounterValue(n + v);
 
   }
 
   ResetCounter() {
-    this.SetCounterValue(0);
+      let confirm = this.alertCtrl.create({
+      title: 'Reset Counter',
+      message: 'Do you want to reset this counter to 0?',
+      buttons: [
+        {
+          text: 'No',
+          handler: () => {
+             
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.SetCounterValue(0);
+          }
+        }
+      ]
+      });
+      confirm.present();    
+    
   }
 
-  SetCounterValue(val) {
+  SetCounterValue(val: number) {
+    debugger;
     this.counterObject.CounterValue = val;
     this.SaveValue(this.counterObject);
   }
