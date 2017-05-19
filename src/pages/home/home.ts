@@ -35,7 +35,6 @@ export class HomePage {
   }
 
   GetDefaultCounter() {
-
     var title = "First counter";
     var obj = { CounterTitle: title, CounterValue: 0, CounterIncrement: 1, CounterDecrement: 1 };
     return obj;

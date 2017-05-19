@@ -17,21 +17,8 @@ export class AboutPage {
 
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public toastCtrl: ToastController) {
-    this.dataStore = new SqlStorage();
-    this.allCounters = [
-      { CounterTitle: 'jasper', city: 'Amsterdam', CounterValue: 10 },
-      { CounterTitle: 'Dave', city: 'phoenix', CounterValue: 22 },
-      { CounterTitle: 'Gina', city: 'Amsterdam', CounterValue: 9 },
-      { CounterTitle: 'Philip', city: 'Otterloo', CounterValue: 55 }
-    ];
-    this.GetAll().then((val) => { this.allCounters = val; });
-    // let t=this.GetAll().then((val)=> 
-    // {
-    //   debugger;
-    //    return val;
-
-    //   } );
-    // debugger;
+    this.dataStore = new SqlStorage();   
+    this.GetAll().then((val) => { this.allCounters = val; });    
   }
 
   ionViewDidEnter() {
@@ -39,7 +26,7 @@ export class AboutPage {
   }
 
   GetAll() {
-    console.log('in getall about');
+    
     return this.dataStore.getAll();
 
   }

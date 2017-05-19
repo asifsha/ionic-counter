@@ -139,15 +139,15 @@ export class SqlStorage {
                    // if (data.rows.length > 0)
                     // {
                         return this.db.executeSql('update kv set currentCounter = 1 where key in (select key from kv limit 1)', null).then(data => {
-                            debugger;    
-                            return this.db.executeSql('select key, value from kv limit 1',null).then(data=>{ 
-                                debugger;
-                                    if (data.rows.length == 0)                                    {
-                                        var obj={ CounterTitle :'First Counter', CounterValue: 0, CounterIncrement :1 , CounterDecrement : 1 };
-                                        this.accessDatabase(1,obj.CounterTitle,JSON.stringify(obj));
-                                    }
-                                 }
-                            );
+                            // debugger;    
+                            // return this.db.executeSql('select key, value from kv limit 1',null).then(data=>{ 
+                            //     debugger;
+                            //         if (data.rows.length == 0)                                    {
+                            //             var obj={ CounterTitle :'First Counter', CounterValue: 0, CounterIncrement :1 , CounterDecrement : 1 };
+                            //             this.accessDatabase(1,obj.CounterTitle,JSON.stringify(obj));
+                            //         }
+                            //      }
+                            // );
                         
                       //  this.db.close();
                         //return data.rows.length;
@@ -203,6 +203,13 @@ export class SqlStorage {
                     if (data.rows.length > 0) {
                        // this.db.close();
                         return JSON.parse(data.rows.item(0).value);
+                    }
+                    else
+                    {
+                        var obj={ CounterTitle :'First Counter', CounterValue: 0, CounterIncrement :1 , CounterDecrement : 1 };
+                        this.accessDatabase(1,obj.CounterTitle,JSON.stringify(obj)).then(()=>{
+                            return obj;
+                        });
                     }
                     //this.db.close();
                     return  { CounterTitle :'First Counter', CounterValue: 0, CounterIncrement :1 , CounterDecrement : 1 }
