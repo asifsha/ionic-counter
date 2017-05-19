@@ -9,7 +9,9 @@
 		<div>
       <ion-list no-lines>     					
           <ion-item>
-            {{counterObject.CounterValue}}            
+            <h1 ion-text color="dark">
+            {{counterObject.CounterValue}}
+            </h1>            
           </ion-item>
           <ion-item>
       <button large ion-button block (click)="UpdateCounter(counterObject.CounterIncrement)"> +{{counterObject.CounterIncrement}}</button>

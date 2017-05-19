@@ -2,8 +2,8 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
+import { CounterlistPage } from '../pages/counterlist/counterlist';
+import { SettingsPage } from '../pages/settings/settings';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { SqlStorage } from '../common/shared';
@@ -12,8 +12,8 @@ import { SqlStorage } from '../common/shared';
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
-    ContactPage,
+    CounterlistPage,
+    SettingsPage,
     HomePage,
     TabsPage
   ],
@@ -23,8 +23,8 @@ import { SqlStorage } from '../common/shared';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
-    ContactPage,
+    CounterlistPage,
+    SettingsPage,
     HomePage,
     TabsPage
   ],

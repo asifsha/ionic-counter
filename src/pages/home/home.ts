@@ -40,23 +40,14 @@ export class HomePage {
     return obj;
   }
 
-  GetCounterObject() {
-    //  if(title=='' || title == null)
-    //  title="first counter";
-    //   var obj= { CounterTitle :title, CounterValue: 0, CounterIncrement :1 , CounterDecrement : 1 };   
-    //   return obj;
-    //this.dataStore= new SqlStorage();
-    console.log('in ionViewDidEnter');
-    this.dataStore.getCurrentObject().then((val) => {
-      debugger;
+  GetCounterObject() {    
+    this.dataStore.getCurrentObject().then((val) => {      
       if (val != null)
-        this.counterObject = val;
-      console.log(val);
+        this.counterObject = val;      
     });
   }
 
-  UpdateCounter(value: number) {
-    debugger;
+  UpdateCounter(value: number) {    
     var n= +this.counterObject.CounterValue;
     var v= +value;
     this.SetCounterValue(n + v);
@@ -86,16 +77,14 @@ export class HomePage {
     
   }
 
-  SetCounterValue(val: number) {
-    debugger;
+  SetCounterValue(val: number) {    
     this.counterObject.CounterValue = val;
     this.SaveValue(this.counterObject);
   }
 
   SaveValue(obj) {
 
-    this.dataStore.update(obj.CounterTitle, JSON.stringify(obj)).then(() => {
-      console.log('value updated successfully');
+    this.dataStore.update(obj.CounterTitle, JSON.stringify(obj)).then(() => {      
       
     });
 

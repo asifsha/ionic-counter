@@ -6,9 +6,9 @@ import { SqlStorage } from '../../common/shared';
 
 @Component({
   selector: 'page-contact',
-  templateUrl: 'contact.html'
+  templateUrl: 'settings.html'
 })
-export class ContactPage {
+export class SettingsPage {
 
 
   dataStore: SqlStorage;
@@ -18,8 +18,7 @@ export class ContactPage {
   }
   counterObject = this.GetDefaultCounter();
   oldTitle: any;
-
-  //   return obj;; //=this.GetCounterObject('');
+ 
 
   ionViewDidEnter() {
     this.GetCounterObject();
@@ -34,13 +33,11 @@ export class ContactPage {
 
   GetCounterObject() {
 
-    this.dataStore.getCurrentObject().then((val) => {
-      debugger;
+    this.dataStore.getCurrentObject().then((val) => {      
       if (val != null) {
         this.counterObject = val;
         this.oldTitle = this.counterObject.CounterTitle;
-      }
-      console.log(val);
+      }      
     });
   }
 
@@ -90,8 +87,7 @@ export class ContactPage {
     this.NavigateToLastTab();
   }
 
-  NavigateToLastTab() {
-    //let tabIndex = this.navCtrl.parent._selectHistory[this.navCtrl.parent._selectHistory.length - 2] == "t0-0" ? 0 : 1;
+  NavigateToLastTab() {    
     this.navCtrl.parent.select(0);
   }
 

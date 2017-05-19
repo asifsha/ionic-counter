@@ -7,9 +7,9 @@ import { SqlStorage } from '../../common/shared';
 
 @Component({
   selector: 'page-about',
-  templateUrl: 'about.html'
+  templateUrl: 'counterlist.html'
 })
-export class AboutPage {
+export class CounterlistPage {
 
   public allCounters;
   dataStore: SqlStorage;
@@ -43,7 +43,7 @@ export class AboutPage {
     }
 
     this.dataStore.isExists(this.newTitle).then((val) => {
-      debugger;
+      
       if (val == null || val===undefined) {
         var counter = { CounterTitle: this.newTitle, CounterValue: 0, CounterIncrement: 1, CounterDecrement: 1 };
         this.dataStore.add(this.newTitle, JSON.stringify(counter)).then((val) => {
@@ -80,7 +80,7 @@ export class AboutPage {
   SelectCounter(event, title) {
     event.stopPropagation();
     this.dataStore.get(title).then((val) => {
-      console.log(val);
+      
       this.navCtrl.parent.select(0);
     });
   }
